@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
+import { useSelector } from "react-redux"
 const Home =()=>{  
     const navigator = useNavigate()
     const logout = async()=>{
@@ -9,6 +10,9 @@ const Home =()=>{
         navigator("/login")
     }
   }
+
+  const data = useSelector((state)=>state)
+  console.log("state data", data)
 
   useEffect( ()=>{
     const checker =async()=>{
