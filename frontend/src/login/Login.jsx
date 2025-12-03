@@ -13,12 +13,19 @@ const Login = ()=>{
         const loginFunc=async()=>{
             try{
                 const response = await axios.post("http://localhost:3001/auth/login",{username, password},{withCredentials: true})
-                console.log(response)
-                if(response.status==200){
-                    dispatch(login({"username":username,"password": password, "token":"kk", "expiresIn":"8h"}))
+                console.log("response at front end login", response)
+                if(response.data.status==200){
+                    const accessToken = response.data.data.accessToken;
+                    const userId = response.data.data.userId;
+                    const { exp } = JSON.parse(atob(accessToken.split(".")[1]));
+                    dispatch(login({userId:userId, "username":username,"password": password, "token": accessToken, "expiresIn":exp}))
                     navigator("/")
                 }
+                else{
+                    alert(response.data.data)
+                }
             }catch(e){
+
                 console.log(e)
             }
             console.log("lll")
